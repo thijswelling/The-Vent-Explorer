@@ -1,8 +1,36 @@
-import RPi.GPIO as GPIO
 import time
+import platform
+
+
+if 'windows' in platform.system().lower():  # for testing on windows GPIO class
+    class RPIGPIO:
+        def __init__(self):
+            self.BCM = None
+            self.HIGH = None
+            self.LOW = None
+            self.OUT = None
+        def setwarnings(self, *args):
+            pass
+
+        def setmode(self, *args):
+            pass
+
+        def setup(self, *args):
+            pass
+
+        def output(self, *args):
+            pass
+
+        def cleanup(self, *args):
+            pass
+
+    GPIO = RPIGPIO()
+else:
+    import RPi.GPIO as GPIO
+
 
 class MotorDriver:
-    def _init_(self, delay=0.001, dir1_pin=20, dir2_pin=10, step1_pin=21, step2_pin=11, enable1_pin=4, enable2_pin=4):
+    def __init__(self, delay=0.001, dir1_pin=20, dir2_pin=10, step1_pin=21, step2_pin=11, enable1_pin=4, enable2_pin=4):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
 
