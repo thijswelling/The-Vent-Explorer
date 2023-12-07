@@ -17,7 +17,6 @@ class Client:
         with connect(self.host) as websocket:
             request = {"motor_control": self.read_keyboard_states()}
             request = pickle.dumps(request)
-
             websocket.send(request)
             message = websocket.recv()
             data = pickle.loads(message)
@@ -48,8 +47,11 @@ class Client:
         while 1:
             data = self.pass_get_states()
             self.show_image(frame=data["cam"])
+
             print(data["sensors"])
             time.sleep(1 / 30)
+
+
 
 parser = argparse.ArgumentParser(
     prog='Client',

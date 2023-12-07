@@ -1,5 +1,7 @@
 import argparse
 import asyncio
+import sys
+import time
 from websockets.server import serve
 import pickle
 import socket
@@ -43,14 +45,15 @@ class Server:
         elif left:
             self.motors.move(-1, 1)
 
-
     async def handle(self, websocket):
         async for message in websocket:
+            timer = time.time()
             data = pickle.loads(message)
             self.handle_motors(data["motor_control"])
             cam = self.camera.get_image()
             response = {"cam": cam, "sensors": self.get_sensors_data()}
             response = pickle.dumps(response)
+            print(time.time() - timer)
             await websocket.send(response)
 
     async def run(self, IP:str="localhost", PORT: int=8000):
@@ -88,6 +91,7 @@ if __name__ == '__main__':
     PORT = 8000 if PORT == None else PORT
     server = Server()
     server.begin(IP, PORT)
+    sys.exit(0)
 
 
 
