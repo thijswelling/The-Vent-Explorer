@@ -95,7 +95,7 @@ class MotorDriver:
         GPIO.cleanup()
 
 if __name__ == '__main__':
-    m = MotorDriver()
+    m = Motordriver()
     while 1:
         m.move(right=1, left=0)
         m.enable_motor()

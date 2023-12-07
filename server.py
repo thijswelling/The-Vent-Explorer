@@ -4,12 +4,12 @@ from websockets.server import serve
 import pickle
 import socket
 from motordriver import MotorDriver
-from camera import Camera
+#from camera import Camera
 from threading import *
 
 class Server:
     def __init__(self):
-        self.camera = Camera()
+        #self.camera = Camera()
         self.motors = MotorDriver()
 
     def get_sensors_data(self) -> dict:
@@ -48,7 +48,7 @@ class Server:
         async for message in websocket:
             data = pickle.loads(message)
             self.handle_motors(data["motor_control"])
-            cam = self.camera.get_image()
+            cam = None#self.camera.get_image()
             response = {"cam": cam, "sensors": self.get_sensors_data()}
             response = pickle.dumps(response)
             await websocket.send(response)

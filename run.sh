@@ -1,4 +1,2 @@
-sudo pip install websockets
-sudo pip install RPi.GPIO
-sudo pip install opencv-python
+sudo pip install -r requirments.txt
 sudo python server.py
