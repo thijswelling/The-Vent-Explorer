@@ -4,7 +4,7 @@ from websockets.server import serve
 import pickle
 import socket
 from motordriver import MotorDriver
-#from camera import Camera
+from camera import Camera
 from threading import *
 
 class Server:
@@ -53,12 +53,12 @@ class Server:
             response = pickle.dumps(response)
             await websocket.send(response)
 
-
     async def run(self, IP:str="localhost", PORT: int=8000):
         if IP == None:
             host = socket.gethostname()
             IP = socket.gethostbyname(host)
-        PORT = 8000
+            PORT = 8000
+
         async with serve(self.handle, IP, PORT):
             host = socket.gethostname()
             IP = socket.gethostbyname(host)

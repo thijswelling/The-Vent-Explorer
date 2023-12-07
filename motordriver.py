@@ -33,6 +33,7 @@ class MotorDriver:
         self.step2 = 0
 
 
+
     def set_dir(self, dir1, dir2):
         if dir1 == 1:
             GPIO.output(self.dir1_pin, GPIO.HIGH)   # Forward
@@ -95,7 +96,7 @@ class MotorDriver:
         GPIO.cleanup()
 
 if __name__ == '__main__':
-    m = Motordriver()
+    m = MotorDriver()
     while 1:
         m.move(right=1, left=0)
         m.enable_motor()
