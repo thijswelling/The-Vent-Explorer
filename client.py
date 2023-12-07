@@ -38,8 +38,9 @@ class Client:
         return keypressed
 
     def show_image(self, frame: numpy.array):
-        cv2.imshow('frame', frame)
-        cv2.waitKey(1)
+        if type(frame) == numpy.ndarray:
+            cv2.imshow('frame', frame)
+            cv2.waitKey(1)
         return frame
 
     def run(self):
@@ -65,7 +66,7 @@ if __name__ == '__main__':
     if IP == None:
         host = socket.gethostname()
         IP = socket.gethostbyname(host)
-        PORT = 8000
+    print(PORT)
     PORT = 8000 if PORT == None else PORT
     HOST = f"ws://{IP}:{PORT}/"
     client = Client(HOST)
