@@ -8,6 +8,7 @@ import socket
 from motordriver import MotorDriver
 from camera import Camera
 from threading import *
+import cv2
 
 class Server:
     def __init__(self):
@@ -47,13 +48,14 @@ class Server:
 
     async def handle(self, websocket):
         async for message in websocket:
-            timer = time.time()
             data = pickle.loads(message)
             self.handle_motors(data["motor_control"])
-            cam = self.camera.get_image()
-            response = {"cam": cam, "sensors": self.get_sensors_data()}
+            img = self.camera.get_image()
+            # compression = data['img_comp'] if 'img_comp' in data and abs(data['img_comp']) < 99 else 30
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 10]
+            result, encimg = cv2.imencode('.jpg', img, encode_param)
+            response = {"cam": encimg, "sensors": self.get_sensors_data()}
             response = pickle.dumps(response)
-            print(time.time() - timer)
             await websocket.send(response)
 
     async def run(self, IP:str="localhost", PORT: int=8000):

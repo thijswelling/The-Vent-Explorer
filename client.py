@@ -7,6 +7,7 @@ import numpy
 from websockets.sync.client import connect
 import keyboard
 import socket
+import numpy as np
 
 
 class Client:
@@ -16,6 +17,7 @@ class Client:
     def pass_get_states(self) -> dict:
         with connect(self.host) as websocket:
             request = {"motor_control": self.read_keyboard_states()}
+            print(request)
             request = pickle.dumps(request)
             websocket.send(request)
             message = websocket.recv()
@@ -38,17 +40,21 @@ class Client:
 
     def show_image(self, frame: numpy.array):
         if type(frame) == numpy.ndarray:
-            cv2.imshow('frame', frame)
+            decoded_image = cv2.imdecode(np.frombuffer(frame, dtype=np.uint8), cv2.IMREAD_COLOR)
+
+            cv2.imshow('frame', decoded_image)
             cv2.waitKey(1)
         return frame
 
     def run(self):
         print(f"running client with target host: {self.host}")
         while 1:
+            timer = time.time()
             data = self.pass_get_states()
+            print(time.time()-timer)
             self.show_image(frame=data["cam"])
 
-            print(data["sensors"])
+            # print(data["sensors"])
             time.sleep(1 / 30)
 
 

@@ -162,22 +162,3 @@ if __name__ == '__main__':
         m.enable_motor()
         m.drive_motor()
         print("completed 9")
-
-# import time
-# class MotorDriverDumy:
-#     def __init__(self):
-#         pass
-#
-#     def set_step(self, step1, step2):
-#         print(f"set step: {step1}, setp2: {step2}")
-#
-#     def move(self, right, left):
-#         self.set_step(right, left)
-#
-#     def hault(self, state):
-#         print(f"hault: {state}")
-#
-#     def drive_motor(self):
-#         while 1:
-#             print("driving motor")
-#             time.sleep(1)
