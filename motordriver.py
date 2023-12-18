@@ -42,7 +42,7 @@ else:
 
 class MotorDriver:
     def __init__(self, delay=0.001, dir1_pin=20, dir2_pin=10, step1_pin=21, step2_pin=11,
-                 enable1_pin=4, enable2_pin=4, servo_pin=23, led_pin=22):
+                 enable1_pin=4, enable2_pin=4, servo_pin=13, led_pin=12):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
 
@@ -163,7 +163,7 @@ if __name__ == '__main__':
         m.enable_motor()
         m.drive_motor()
         m.set_led(0)
-        m.move_cam()
+        m.move_cam(0)
         print("completed 1")
         m.move(right=0, left=1)
         m.enable_motor()
