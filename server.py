@@ -14,6 +14,7 @@ class Server:
     def __init__(self):
         self.camera = Camera()
         self.motors = MotorDriver()
+        self.motors.enable_motor()
 
     def get_sensors_data(self) -> dict:
         info = {
