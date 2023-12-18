@@ -56,8 +56,7 @@ class Client:
 
     def show_image(self, frame: numpy.array):
         if type(frame) == numpy.ndarray:
-            decoded_image = cv2.imdecode(frame, 1)
-            cv2.imshow('frame', decoded_image)
+            cv2.imshow('frame', frame)
             cv2.waitKey(1)
         return frame
 
