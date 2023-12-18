@@ -14,7 +14,6 @@ class Server:
     def __init__(self):
         self.camera = Camera()
         self.motors = MotorDriver()
-        self.motors.enable_motor()
 
     def get_sensors_data(self) -> dict:
         info = {
@@ -84,7 +83,7 @@ class Server:
             await asyncio.Future()  # run forever
 
     def begin(self, IP:str="localhost", PORT: int=8000):
-        server_thread = Thread(target=self.motors.drive_motor, args=())
+        server_thread = Thread(target=self.motors.drive_motor, args=(True,))
         server_thread.start()
         asyncio.run(self.run(IP, PORT))
 
