@@ -56,7 +56,7 @@ class Server:
         else:
             self.motors.set_led(0)
 
-        if info["hault"]:
+        if info["stop"]:
             self.motors.hault_state(True)
 
     async def handle(self, websocket):
