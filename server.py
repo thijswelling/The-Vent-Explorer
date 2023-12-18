@@ -52,9 +52,11 @@ class Server:
             self.motors.move(-1, 1)
 
         if info['cam_up']:
+            print("came_up")
             self.motors.move_cam(1)
         elif info['cam_down']:
             self.motors.move_cam(-1)
+            print("came_down")
 
         if info['led']:
             self.motors.set_led(50)
