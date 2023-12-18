@@ -103,10 +103,12 @@ class MotorDriver:
         dir2 = 1 if step2 > 0 else 0
         self.set_dir(dir1, dir2)
 
+
     def move(self, right=1, left=1):
         step1 = 0 if right == 0 else 100 * right
         step2 = 0 if left == 0 else 100 * left
         self.set_step(step1, step2)
+        print(self.step2, self.step1)
 
     def hault_state(self, state=True):
         self.hault = state
@@ -116,7 +118,6 @@ class MotorDriver:
         self.servo_duty = self.servo_duty if self.servo_duty > 0 else 0
         self.servo_duty = self.servo_duty if self.servo_duty < 99 else 99
         self.servo_pwm.ChangeDutyCycle(int(self.servo_duty))
-        print(self.servo_duty)
 
     def set_led(self, percent):
         percent = percent if percent >= 0 else 0
@@ -215,3 +216,6 @@ if __name__ == '__main__':
         m.set_led(80)
         m.move_cam(-400)
         print("completed 9")
+        m.disable_motor()
+        time.sleep(10)
+        m.enable_motor()
