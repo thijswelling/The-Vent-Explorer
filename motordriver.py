@@ -199,7 +199,7 @@ if __name__ == '__main__':
         m.enable_motor()
         m.drive_motor()
         m.set_led(60)
-        m.move_cam()
+        m.move_cam(30)
         print("completed 7")
         m.move(right=0, left=-1)
         m.enable_motor()
