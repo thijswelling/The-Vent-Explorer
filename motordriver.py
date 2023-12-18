@@ -3,6 +3,14 @@ import platform
 
 
 if 'windows' in platform.system().lower():  # for testing on windows GPIO class
+
+    class PWMPIN:
+        def start(self, *args):
+            pass
+
+        def ChangeDutyCycle(self, *args):
+            pass
+
     class RPIGPIO:
         def __init__(self):
             self.BCM = None
@@ -24,13 +32,17 @@ if 'windows' in platform.system().lower():  # for testing on windows GPIO class
         def cleanup(self, *args):
             pass
 
+        def PWM(self, pin, frequency) -> PWMPIN:
+            return PWMPIN()
+
     GPIO = RPIGPIO()
 else:
     import RPi.GPIO as GPIO
 
 
 class MotorDriver:
-    def __init__(self, delay=0.001, dir1_pin=20, dir2_pin=10, step1_pin=21, step2_pin=11, enable1_pin=4, enable2_pin=4):
+    def __init__(self, delay=0.001, dir1_pin=20, dir2_pin=10, step1_pin=21, step2_pin=11,
+                 enable1_pin=4, enable2_pin=4, servo_pin=13, led_pin=14):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
 
@@ -43,6 +55,18 @@ class MotorDriver:
 
         self.enable1_pin = enable1_pin
         self.enable2_pin = enable2_pin
+
+        self.servo_pin = servo_pin
+        GPIO.setup(self.servo_pin, GPIO.OUT)
+        self.servo_pwm = GPIO.PWM(self.servo_pin, 50)
+        self.servo_duty = 0
+        self.servo_pwm.start(self.servo_duty)
+
+        self.led_pin = led_pin
+        GPIO.setup(self.led_pin, GPIO.OUT)
+        self.led_pwm = GPIO.PWM(self.led_pin, 600)
+        self.led_duty = 0
+        self.led_pwm.start(self.led_duty)
 
         GPIO.setup(self.dir1_pin, GPIO.OUT)
         GPIO.setup(self.dir2_pin, GPIO.OUT)
@@ -59,8 +83,6 @@ class MotorDriver:
         self.hault = False
         self.step1 = 0
         self.step2 = 0
-
-
 
     def set_dir(self, dir1, dir2):
         if dir1 == 1:
@@ -87,6 +109,17 @@ class MotorDriver:
 
     def hault_state(self, state=True):
         self.hault = state
+
+    def move_cam(self, dir):
+        self.servo_duty += dir * 1/10
+        self.servo_duty = self.servo_duty if self.servo_duty > 0 else 0
+        self.servo_duty = self.servo_duty if self.servo_duty < 99 else 99
+        self.servo_pwm.ChangeDutyCycle(int(self.servo_duty))
+
+    def set_led(self, percent):
+        percent = percent if percent >= 0 else 0
+        percent = percent if percent < 66 else 0
+        self.led_pwm.ChangeDutyCycle(percent)
 
     def drive_motor(self, forever=False):
         while 1:

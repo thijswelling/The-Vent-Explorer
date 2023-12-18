@@ -46,14 +46,27 @@ class Server:
         elif left:
             self.motors.move(-1, 1)
 
+        if info['cam_up']:
+            self.motors.move_cam(1)
+        elif info['cam_down']:
+            self.motors.move_cam(-1)
+
+        if info['led']:
+            self.motors.move_cam(50)
+        else:
+            self.motors.set_led(0)
+
+        if info["hault"]:
+            self.motors.hault_state(True)
+
     async def handle(self, websocket):
         async for message in websocket:
             data = pickle.loads(message)
             self.handle_motors(data["motor_control"])
             img = self.camera.get_image()
-            # compression = data['img_comp'] if 'img_comp' in data and abs(data['img_comp']) < 99 else 30
-            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 10]
-            result, encimg = cv2.imencode('.jpg', img, encode_param)
+            compression = data['img_comp'] if 'img_comp' in data and abs(data['img_comp']) < 99 else 50
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), compression]
+            result, encimg = cv2.imencode('.jpeg', img, encode_param)
             response = {"cam": encimg, "sensors": self.get_sensors_data()}
             response = pickle.dumps(response)
             await websocket.send(response)

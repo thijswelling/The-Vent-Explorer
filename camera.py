@@ -3,7 +3,7 @@ import numpy
 
 
 class Camera:
-    def __init__(self, camId: int = 0, resolution: tuple[int, int] = (720, 720)):
+    def __init__(self, camId: int = 0, resolution: tuple[int, int] = (1280, 720)):
         self.cam = cv2.VideoCapture(camId)
         self.resolution = resolution
         self.cam.set(3, resolution[0])
