@@ -52,7 +52,7 @@ class Server:
             self.motors.move_cam(-1)
 
         if info['led']:
-            self.motors.move_cam(50)
+            self.motors.set_led(50)
         else:
             self.motors.set_led(0)
 

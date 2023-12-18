@@ -3,7 +3,7 @@ import platform
 
 
 if 'windows' in platform.system().lower():  # for testing on windows GPIO class
-
+    print("RPI_GPIO running in windows simulation")
     class PWMPIN:
         def start(self, *args):
             pass
@@ -37,6 +37,7 @@ if 'windows' in platform.system().lower():  # for testing on windows GPIO class
 
     GPIO = RPIGPIO()
 else:
+    print("using RPi.GPIO")
     import RPi.GPIO as GPIO
 
 
