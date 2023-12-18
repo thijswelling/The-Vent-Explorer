@@ -37,6 +37,11 @@ class Server:
         backwards = info['backwards']
         left = info['left']
         right = info['right']
+        if info["motor_enable"] == True:
+            self.motors.enable_motor()
+        else:
+            self.motors.disable_motor()
+
         if forward:
             self.motors.move(1, 1)
         elif backwards:
@@ -55,9 +60,6 @@ class Server:
             self.motors.set_led(50)
         else:
             self.motors.set_led(0)
-
-        if info["stop"]:
-            self.motors.hault_state(True)
 
     async def handle(self, websocket):
         async for message in websocket:

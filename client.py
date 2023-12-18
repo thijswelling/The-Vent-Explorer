@@ -14,6 +14,9 @@ class Client:
         self.lights_state = False
         self.light_toggle_prev = False
 
+        self.stop_state = False
+        self.stop_toggle_prev = False
+
     def pass_get_states(self, state: dict or None = None, img_compression: int = 50) -> dict:
         response = {
             "status": False,
@@ -42,6 +45,13 @@ class Client:
         toggled = True if pressed != self.light_toggle_prev else False
         self.lights_state = (not self.lights_state) if toggled and self.light_toggle_prev else self.lights_state
         self.light_toggle_prev = pressed
+
+        pressed = keyboard.is_pressed("space")
+        toggled = True if pressed != self.stop_toggle_prev else False
+        self.stop_state = (not self.stop_state) if toggled and self.stop_toggle_prev else self.stop_state
+        self.stop_toggle_prev = pressed
+
+
         keypressed = {
             'forward': keyboard.is_pressed("up"),
             'backwards': keyboard.is_pressed("down"),
@@ -50,7 +60,7 @@ class Client:
             'cam_up': keyboard.is_pressed("w"),
             'cam_down': keyboard.is_pressed("s"),
             'led': self.lights_state,
-            'stop': keyboard.is_pressed("space")
+            'motor_enable': self.stop_state
         }
         return keypressed
 

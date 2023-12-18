@@ -125,7 +125,6 @@ class MotorDriver:
         self.led_pwm.ChangeDutyCycle(percent)
 
     def drive_motor(self, forever=False):
-        print("motor thread running")
         while 1:
             if self.hault == True:
                 self.step1 = 0
@@ -147,7 +146,6 @@ class MotorDriver:
             time.sleep(self.delay)
             if not forever and self.step1 == 0 and self.step2 == 0:
                 break
-        print("motor thread exit")
 
     def enable_motor(self):
         GPIO.output(self.enable1_pin, GPIO.LOW)
