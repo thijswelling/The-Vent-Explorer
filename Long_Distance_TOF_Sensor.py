@@ -17,4 +17,4 @@ try:
         time.sleep(1)
 
 except KeyboardInterrupt:
-    print("Programma gestopt door de gebruiker.")
+    print("Programma gestopt door de gebruiker en je moeeeeder.")
