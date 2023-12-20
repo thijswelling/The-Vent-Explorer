@@ -2,3 +2,9 @@ websockets
 RPi.GPIO
 opencv-python
 pillow
+keyboard
+
+TOF sensor:
+enable I2C (sudo raspi-config)
+pip install adafruit-circuitpython-vl53l0x
+pip install adafruit-circuitpython-busdevice
