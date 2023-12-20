@@ -71,6 +71,9 @@ class Server:
             compression = data['img_comp'] if 'img_comp' in data and abs(data['img_comp']) < 99 else 50
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), compression]
             result, encimg = cv2.imencode('.jpeg', img, encode_param)
+            # Bereken de grootte van de gegevens voordat het wordt ingepakt
+            data_size = len(pickle.dumps({"cam": encimg, "sensors": self.get_sensors_data()}))
+            print(f"Grootte van de gegevens: {data_size} bytes")
             response = {"cam": encimg, "sensors": self.get_sensors_data()}
             response = pickle.dumps(response)
             await websocket.send(response)
